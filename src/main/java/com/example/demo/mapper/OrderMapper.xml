@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.OrderMapper">
+
+    <resultMap id="OrderResultMap" type="com.example.demo.entity.Order">
+        <id property="id" column="id" />
+        <result property="userId" column="user_id" />
+        <result property="orderDate" column="order_date" />
+        <result property="totalAmount" column="total_amount" />
+        <result property="userName" column="user_name" />
+        <result property="address" column="address" />
+        <result property="phone" column="phone" />
+        <collection property="orderItems" ofType="com.example.demo.entity.OrderItem" column="id" select="com.example.demo.mapper.OrderItemMapper.getOrderItemsByOrderId" />
+    </resultMap>
+
+    <select id="findAll" resultMap="OrderResultMap">
+        SELECT * FROM orders
+    </select>
+
+    <select id="findById" resultMap="OrderResultMap">
+        SELECT * FROM orders WHERE id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO orders (user_id, order_date, total_amount, user_name, address, phone)
+        VALUES (#{userId}, #{orderDate}, #{totalAmount}, #{userName}, #{address}, #{phone})
+    </insert>
+
+    <update id="update">
+        UPDATE orders
+        SET user_id = #{userId},
+            order_date = #{orderDate},
+            total_amount = #{totalAmount},
+            user_name = #{userName},
+            address = #{address},
+            phone = #{phone}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM orders WHERE id = #{id}
+    </delete>
+
+</mapper>

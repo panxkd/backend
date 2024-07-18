@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.NewsMapper">
+    <resultMap id="NewsResultMap" type="com.example.demo.entity.News">
+        <id property="id" column="id" />
+        <result property="title" column="title" />
+        <result property="content" column="content" />
+        <result property="type" column="type" />
+        <result property="imageUrls" column="imageUrls" typeHandler="com.example.demo.handler.JsonTypeHandler" />
+    </resultMap>
+
+    <select id="getAllNews" resultMap="NewsResultMap">
+        SELECT * FROM news
+    </select>
+
+    <select id="getNewsById" parameterType="Long" resultMap="NewsResultMap">
+        SELECT * FROM news WHERE id = #{id}
+    </select>
+
+    <insert id="insertNews" parameterType="com.example.demo.entity.News" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO news (title, content, type, imageUrls)
+        VALUES (#{title}, #{content}, #{type}, #{imageUrls, jdbcType=VARCHAR, typeHandler=com.example.demo.handler.JsonTypeHandler})
+    </insert>
+
+    <delete id="deleteNews" parameterType="Long">
+        DELETE FROM news WHERE id = #{id}
+    </delete>
+
+    <update id="updateNews" parameterType="com.example.demo.entity.News">
+        UPDATE news
+        SET title = #{title}, content = #{content}, type = #{type}, imageUrls = #{imageUrls, jdbcType=VARCHAR, typeHandler=com.example.demo.handler.JsonTypeHandler}
+        WHERE id = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.model.User">
+        <id column="id" property="id" />
+        <result column="openid" property="openid" />
+        <result column="session_key" property="sessionKey" />
+        <result column="nickname" property="nickname" />
+        <result column="avatar_url" property="avatarUrl" />
+        <result column="gender" property="gender" />
+        <result column="city" property="city" />
+        <result column="province" property="province" />
+        <result column="country" property="country" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <insert id="insertUser" parameterType="com.example.demo.model.User">
+        INSERT INTO user (openid, session_key, nickname, avatar_url, gender, city, province, country)
+        VALUES (#{openid}, #{sessionKey}, #{nickname}, #{avatarUrl}, #{gender}, #{city}, #{province}, #{country})
+    </insert>
+
+    <select id="selectUserByOpenid" parameterType="String" resultMap="BaseResultMap">
+        SELECT * FROM user WHERE openid = #{openid}
+    </select>
+
+    <update id="updateUser" parameterType="com.example.demo.model.User">
+        UPDATE user SET session_key=#{sessionKey}, nickname=#{nickname}, avatar_url=#{avatarUrl}, gender=#{gender}, city=#{city}, province=#{province}, country=#{country}
+        WHERE openid = #{openid}
+    </update>
+</mapper>
